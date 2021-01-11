@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Models.Api.Wine>
+
+
+<div class="row">
+    @if (Model.Count() == 0)
+    {
+        <text>No products were found.</text>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr class="columnHeader">
+                    <th></th>
+                    <th>COUNTRY OF ORIGIN</th>
+                    <th>NAME</th>
+                    <th>PRODUCER</th>
+                    <th>PRICE</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ev in Model)
+                {
+                    <tr>
+                        <td>
+                            <img class="productPic" src="@ev.ImageFile" alt="Product pic" />
+                        </td>
+                        <td>
+                            @ev.CountryOfOrigin
+                        </td>
+                        <td>
+                            @ev.Name
+                        </td>
+                        <td>
+                            @ev.Producer
+                        </td>
+                        <td class="bold big">
+                            $@ev.Price
+                        </td>
+                        <td>
+                            <a class="btn-primary" type="button" asp-action="Details" asp-controller="Admin" asp-route-wineId="@ev.WineId">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+

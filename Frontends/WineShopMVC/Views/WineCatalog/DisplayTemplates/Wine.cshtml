@@ -1,0 +1,21 @@
+﻿@model Models.Api.Wine
+<tr>
+    <td>
+        <img class="productPic" src="@Model.ImageFile" alt="Product pic" />
+    </td>
+    <td>
+        @Model.CountryOfOrigin
+    </td>
+    <td>
+        @Model.Name
+    </td>
+    <td>
+        @Model.Producer
+    </td>
+    <td class="bold big">
+        $@Model.Price
+    </td>
+    <td>
+        <a class="btn-primary" type="button" asp-action="Detail" asp-route-wineId="@Model.WineId">DETAILS</a>
+    </td>
+</tr>
