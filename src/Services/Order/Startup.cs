@@ -2,6 +2,7 @@ using MessagingBus;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,7 @@ namespace Ordering
 {
     public class Startup
     {
+    
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -58,7 +60,7 @@ namespace Ordering
             });
 
             services.AddSingleton<IAzServiceBusConsumer, AzServiceBusConsumer>();
-
+           
             services.AddControllers();
         }
 
@@ -69,7 +71,7 @@ namespace Ordering
             {
                 app.UseDeveloperExceptionPage();
             }
-
+          
             app.UseHttpsRedirection();
 
 

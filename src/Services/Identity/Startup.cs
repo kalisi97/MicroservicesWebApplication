@@ -2,14 +2,21 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using Identity.Data;
+using Identity.Models;
 using Identity.Services;
-using IdentityServer4;
 using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Logging;
+using System;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Identity
 {
@@ -26,7 +33,20 @@ namespace Identity
 
         public void ConfigureServices(IServiceCollection services)
         {
+
+            // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+          
             services.AddControllersWithViews();
+          
+            services.AddDbContext<IdentityDbContext>(
+                options => options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=UsersDb;Trusted_Connection=True;MultipleActiveResultSets=true", null));
+          
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+             
+              .AddDefaultTokenProviders()
+              .AddEntityFrameworkStores<IdentityDbContext>();
+
 
             var builder = services.AddIdentityServer(options =>
             {
@@ -39,17 +59,20 @@ namespace Identity
                 options.EmitStaticAudienceClaim = true;
             })
                 .AddTestUsers(TestUsers.Users);
+               
 
             // in-memory, code config
             builder.AddInMemoryIdentityResources(Config.IdentityResources);
             builder.AddInMemoryApiScopes(Config.ApiScopes);
             builder.AddInMemoryClients(Config.Clients);
             builder.AddInMemoryApiResources(Config.ApiResources);
+           // builder.AddAspNetIdentity<ApplicationUser>();
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
-
+            builder.AddAspNetIdentity<ApplicationUser>();
             // add extension grant
             builder.AddExtensionGrantValidator<TokenExchangeExtensionGrantValidator>();
+            services.AddAuthentication();
         }
 
         public void Configure(IApplicationBuilder app)

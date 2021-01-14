@@ -32,7 +32,7 @@ namespace IdentityServerHost.Quickstart.UI
                         SubjectId = "e455a3df-7fa5-47e0-8435-179b300d531f",
                         //e455a3df-7fa5-47e0-8435-179b300d531f
                         Username = "alice",
-                        Password = "alice",
+                        Password = "Pass123!",
                         Claims =
                         {
 
@@ -49,7 +49,7 @@ namespace IdentityServerHost.Quickstart.UI
                     {
                         SubjectId = "bbf594b0-3761-4a65-b04c-eec4836d9070",
                         Username = "bob",
-                        Password = "bob",
+                        Password = "Pass123!",
                         Claims =
                         {
                             new Claim(JwtClaimTypes.Name, "Bob Smith"),

@@ -1,4 +1,3 @@
-C:\Users\user\source\repos\WineShopAPP\src\Services\Order\obj\Debug\netcoreapp3.1\Ordering.csprojAssemblyReference.cache
 C:\Users\user\source\repos\WineShopAPP\src\Services\Order\obj\Debug\netcoreapp3.1\Ordering.AssemblyInfoInputs.cache
 C:\Users\user\source\repos\WineShopAPP\src\Services\Order\obj\Debug\netcoreapp3.1\Ordering.AssemblyInfo.cs
 C:\Users\user\source\repos\WineShopAPP\src\Services\Order\obj\Debug\netcoreapp3.1\Ordering.csproj.CoreCompileInputs.cache
@@ -73,3 +72,4 @@ C:\Users\user\source\repos\WineShopAPP\src\Services\Order\obj\Debug\netcoreapp3.
 C:\Users\user\source\repos\WineShopAPP\src\Services\Order\obj\Debug\netcoreapp3.1\Ordering.genruntimeconfig.cache
 C:\Users\user\source\repos\WineShopAPP\src\Services\Order\bin\Debug\netcoreapp3.1\IdentityModel.dll
 C:\Users\user\source\repos\WineShopAPP\src\Services\Order\bin\Debug\netcoreapp3.1\System.Text.Encodings.Web.dll
+C:\Users\user\source\repos\WineShopAPP\src\Services\Order\obj\Debug\netcoreapp3.1\Ordering.csprojAssemblyReference.cache
