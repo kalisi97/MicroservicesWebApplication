@@ -9,7 +9,7 @@ using WineShopMVC.Models.Api;
 
 namespace WineShopMVC.Controllers
 {
-    
+    // added for test purpose, not final version of admin role
     public class AdminController : Controller
     {
         private readonly IWineCatalogService wineCatalogService;
