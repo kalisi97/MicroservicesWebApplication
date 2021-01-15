@@ -17,6 +17,18 @@ namespace Discounts.Repositories
             _discountDbContext = discountDbContext;
         }
 
+        public async Task ChangeCouponStatus(Guid couponId)
+        {
+            var couponToUpdate =
+              await _discountDbContext.Coupons.Where(x => x.CouponId == couponId).FirstOrDefaultAsync();
+
+            if (couponToUpdate == null)
+                throw new Exception();
+
+            couponToUpdate.AlreadyUsed = true;
+            await _discountDbContext.SaveChangesAsync();
+        }
+
         public async Task<Coupon> GetCouponById(Guid couponId)
         {
             return await _discountDbContext.Coupons.Where(x => x.CouponId == couponId).FirstOrDefaultAsync();

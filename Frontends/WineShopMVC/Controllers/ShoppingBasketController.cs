@@ -13,13 +13,15 @@ namespace Controllers
     public class ShoppingBasketController : Controller
     {
         private readonly IShoppingBasketService basketService;
+   
         private readonly Settings settings;
 
-        public ShoppingBasketController(IShoppingBasketService basketService, 
+        public ShoppingBasketController(IShoppingBasketService basketService,
             Settings settings)
         {
             this.basketService = basketService;
-            this.settings = settings; 
+            this.settings = settings;
+          
         }
 
         public async Task<IActionResult> Index()
@@ -33,7 +35,7 @@ namespace Controllers
         {
             var basketId = settings.BasketId;
             Basket basket = await basketService.GetBasket(basketId);
-
+            Coupon coupon = await basketService.GetDiscountForBasket(basket.UserId);
             var basketLines = await basketService.GetLinesForBasket(basketId);
 
             var lineViewModels = basketLines.Select(bl => new BasketLineViewModel
@@ -49,7 +51,11 @@ namespace Controllers
             var basketViewModel = new BasketViewModel
             {
                 BasketLines = lineViewModels.ToList()
+                
             };
+
+            if (coupon != null && coupon.AlreadyUsed == false) basketViewModel.Discount = coupon.Amount;
+            else basketViewModel.Discount = 0;
              
             basketViewModel.ShoppingCartTotal = basketViewModel.BasketLines.Sum(bl => bl.Price * bl.Quantity);
 

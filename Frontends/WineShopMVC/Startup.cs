@@ -53,7 +53,7 @@ namespace WineShopMVC
                 c.BaseAddress = new Uri(config["ApiConfigs:ShoppingBasket:Uri"]));
             services.AddHttpClient<IOrderService, OrderService>(c =>
                 c.BaseAddress = new Uri(config["ApiConfigs:Ordering:Uri"]));
-
+          
             services.AddSingleton<Settings>();
 
             services.AddAuthentication(options =>
@@ -73,6 +73,7 @@ namespace WineShopMVC
            options.Scope.Add("shoppingbasket.fullaccess");
            options.Scope.Add("wineshopgateway.fullaccess");
            options.Scope.Add("winecatalog.fullaccess");
+         
            //wineshopgateway.fullaccess
        });
         }

@@ -15,5 +15,6 @@ namespace Services
         Task<BasketForCheckout> Checkout(Guid basketId, BasketForCheckout basketForCheckout);
         Task<Basket> GetBasketForUser(Guid userId);
         Task<Basket> CreateBasketForUser(Guid userId);
+        Task<Coupon> GetDiscountForBasket(Guid userId);
     }
 }

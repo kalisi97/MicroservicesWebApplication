@@ -10,5 +10,6 @@ namespace Discounts.Repositories
     {
         Task<Coupon> GetCouponByUserId(Guid userId);
         Task<Coupon> GetCouponById(Guid couponId);
+        Task ChangeCouponStatus(Guid couponId);
     }
 }

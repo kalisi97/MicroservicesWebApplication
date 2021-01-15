@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Discounts.Migrations
 {
     [DbContext(typeof(DiscountDbContext))]
-    [Migration("20210108233640_Init")]
+    [Migration("20210114210338_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,9 @@ namespace Discounts.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("AlreadyUsed")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
@@ -40,15 +43,17 @@ namespace Discounts.Migrations
                     b.HasData(
                         new
                         {
-                            CouponId = new Guid("e0eae93f-8742-4714-8d82-648e3a163692"),
+                            CouponId = new Guid("d8d02b4f-5a86-4472-8049-a7551a199baf"),
+                            AlreadyUsed = false,
                             Amount = 10m,
-                            UserId = new Guid("e455a3df-7fa5-47e0-8435-179b300d531f")
+                            UserId = new Guid("be936f3d-ddd8-4a5c-92c2-e91b9a25a702")
                         },
                         new
                         {
-                            CouponId = new Guid("8f2a3adf-f517-403f-b192-1014ddcbb0af"),
-                            Amount = 20m,
-                            UserId = new Guid("bbf594b0-3761-4a65-b04c-eec4836d9070")
+                            CouponId = new Guid("bf49a548-7bda-4275-999b-a0b7ff2c785a"),
+                            AlreadyUsed = false,
+                            Amount = 5m,
+                            UserId = new Guid("849c17ab-45df-4ffd-835b-1d4ed8a8f486")
                         });
                 });
 #pragma warning restore 612, 618

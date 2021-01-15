@@ -179,3 +179,4 @@ C:\Users\user\source\repos\WineShopAPP\src\Services\Identity\bin\Debug\netcoreap
 C:\Users\user\source\repos\WineShopAPP\src\Services\Identity\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
 C:\Users\user\source\repos\WineShopAPP\src\Services\Identity\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Binder.dll
 C:\Users\user\source\repos\WineShopAPP\src\Services\Identity\bin\Debug\netcoreapp3.1\IdentityServer4.AspNetIdentity.dll
+C:\Users\user\source\repos\WineShopAPP\src\Services\Identity\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs

@@ -49,5 +49,14 @@ namespace Discounts.Controllers
 
             return Ok(_mapper.Map<CouponDto>(coupon));
         }
+
+        [HttpPut("use/{couponId}")]
+        public async Task<IActionResult> ChangeCouponStatus(CouponDto coupon)
+        {
+            await _couponRepository.ChangeCouponStatus(coupon.CouponId);
+            return Ok();
+        }
+
+
     }
 }

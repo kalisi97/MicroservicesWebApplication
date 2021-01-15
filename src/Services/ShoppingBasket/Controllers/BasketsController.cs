@@ -70,6 +70,30 @@ namespace ShoppingBasket.Controllers
             }
         }
 
+
+        [HttpGet("discount/{userId}", Name = "GetDiscountForBasket")]
+
+        public async Task<ActionResult<Coupon>> GetDiscountForBasket(Guid userId)
+        {
+            try
+            {
+            
+                Coupon coupon = null;
+
+                if (!(userId == Guid.Empty))
+                    coupon = await discountService.GetCoupon(userId);
+
+             
+                return Ok(coupon);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, e.StackTrace);
+
+            }
+        }
+
       
         [HttpGet("user/{userId}", Name = "GetBasketForUser")]
         public async Task<ActionResult<Basket>> GetBasketForUser(Guid userId)
@@ -169,7 +193,15 @@ namespace ShoppingBasket.Controllers
 
                 if (coupon != null)
                 {
-                    basketCheckoutMessage.BasketTotal = total - coupon.Amount;
+                    if (coupon.AlreadyUsed == false)
+                    {
+                        basketCheckoutMessage.BasketTotal = total - coupon.Amount;
+                        await discountService.ChangeCouponStatus(coupon);
+                    }
+                    else
+                    {
+                        basketCheckoutMessage.BasketTotal = total;
+                    }
                 }
                 else
                 {

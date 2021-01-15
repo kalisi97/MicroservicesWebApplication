@@ -24,14 +24,16 @@ namespace Discounts.DbContexts
             {
                 CouponId = Guid.NewGuid(),
                 Amount = 10,
-                UserId = Guid.Parse("{E455A3DF-7FA5-47E0-8435-179B300D531F}")
+                UserId = Guid.Parse("{be936f3d-ddd8-4a5c-92c2-e91b9a25a702}"),
+                AlreadyUsed = false
             });
 
             modelBuilder.Entity<Coupon>().HasData(new Coupon
             {
                 CouponId = Guid.NewGuid(),
-                Amount = 20,
-                UserId = Guid.Parse("{bbf594b0-3761-4a65-b04c-eec4836d9070}")
+                Amount = 5,
+                UserId = Guid.Parse("{849c17ab-45df-4ffd-835b-1d4ed8a8f486}"),
+                AlreadyUsed = false
             });
         }
     }

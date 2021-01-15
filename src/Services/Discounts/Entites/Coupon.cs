@@ -10,9 +10,8 @@ namespace Discounts.Entites
         public Guid CouponId { get; set; }
         public Guid UserId { get; set; }
         public decimal Amount { get; set; }
+        public bool AlreadyUsed { get; set;}
 
-        // public bool AlreadyUsed { get; set;}
-
-        //  public string Code { get; set; }
+      
     }
 }

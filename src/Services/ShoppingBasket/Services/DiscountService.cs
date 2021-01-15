@@ -73,5 +73,11 @@ namespace ShoppingBasket.Services
             var coupon = await response.ReadContentAs<Coupon>();
             return coupon;
         }
+
+        public async Task ChangeCouponStatus(Coupon coupon)
+        {
+            client.SetBearerToken(await GetToken());
+            var response = await client.PutAsJson($"/api/discounts/use/{coupon.CouponId}", coupon);
+        }
     }
 }

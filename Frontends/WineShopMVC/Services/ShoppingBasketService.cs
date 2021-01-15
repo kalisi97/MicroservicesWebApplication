@@ -106,5 +106,15 @@ namespace Services
             var response = await client.PostAsJson($"api/baskets", new BasketForCreation { UserId = userId});
             return await response.ReadContentAs<Basket>();
         }
+
+        public async Task<Coupon> GetDiscountForBasket(Guid userId)
+        {
+            if (userId == Guid.Empty)
+                return null;
+
+            client.SetBearerToken(await httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
+            var response = await client.GetAsync($"api/baskets/discount/{userId}");
+            return await response.ReadContentAs<Coupon>();
+        }
     }
 }

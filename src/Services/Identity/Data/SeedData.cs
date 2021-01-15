@@ -37,6 +37,8 @@ namespace Identity.Data
                         alice = new ApplicationUser
                         {
                             UserName = "alice"
+                      
+                           
                         };
                         var result = userMgr.CreateAsync(alice, "Pass123!").Result;
                         if (!result.Succeeded)
