@@ -24,8 +24,11 @@ namespace Ordering.Messaging
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly OrderRepository _orderRepository;
         private readonly IMessageBus _messageBus;
-
         private readonly string checkoutMessageTopic;
+        private readonly IReceiverClient orderPaymentUpdateMessageReceiverClient;
+        private readonly string orderPaymentRequestMessageTopic;
+        private readonly string orderPaymentUpdatedMessageTopic;
+
 
         public AzServiceBusConsumer(IConfiguration configuration, IMessageBus messageBus, OrderRepository orderRepository, IServiceScopeFactory scopeFactory)
         {
@@ -36,8 +39,10 @@ namespace Ordering.Messaging
 
             var serviceBusConnectionString = _configuration.GetValue<string>("ServiceBusConnectionString");
             checkoutMessageTopic = _configuration.GetValue<string>("CheckoutMessageTopic");
-
+            orderPaymentRequestMessageTopic = _configuration.GetValue<string>("OrderPaymentRequestMessageTopic");
+            orderPaymentUpdatedMessageTopic = _configuration.GetValue<string>("OrderPaymentUpdatedMessageTopic");
             checkoutMessageReceiverClient = new SubscriptionClient(serviceBusConnectionString, checkoutMessageTopic, subscriptionName);
+            orderPaymentUpdateMessageReceiverClient = new SubscriptionClient(serviceBusConnectionString, orderPaymentUpdatedMessageTopic, subscriptionName);
             _scopeFactory = scopeFactory;
         }
 
@@ -46,8 +51,17 @@ namespace Ordering.Messaging
             var messageHandlerOptions = new MessageHandlerOptions(OnServiceBusException) { MaxConcurrentCalls = 4 };
 
             checkoutMessageReceiverClient.RegisterMessageHandler(OnCheckoutMessageReceived, messageHandlerOptions);
-        }
+            orderPaymentUpdateMessageReceiverClient.RegisterMessageHandler(OnOrderPaymentUpdateReceived, messageHandlerOptions);
 
+        }
+        private async Task OnOrderPaymentUpdateReceived(Message message, CancellationToken arg2)
+        {
+            var body = Encoding.UTF8.GetString(message.Body);//json from service bus
+            OrderPaymentUpdateMessage orderPaymentUpdateMessage =
+                JsonConvert.DeserializeObject<OrderPaymentUpdateMessage>(body);
+
+            await _orderRepository.UpdateOrderPaymentStatus(orderPaymentUpdateMessage.OrderId, orderPaymentUpdateMessage.PaymentSuccess);
+        }
         private async Task OnCheckoutMessageReceived(Message message, CancellationToken arg2)
         {
             try
@@ -89,7 +103,25 @@ namespace Ordering.Messaging
                 //message count should be 0
                 //on the Service Bus Subscription page, the Active message count is 0.
                 //It's because a receiver has received messages from this subscription and completed the messages.
+                //send order payment request message
+                OrderPaymentRequestMessage orderPaymentRequestMessage = new OrderPaymentRequestMessage
+                {
+                    CardExpiration = basketCheckoutMessage.CardExpiration,
+                    CardName = basketCheckoutMessage.CardName,
+                    CardNumber = basketCheckoutMessage.CardNumber,
+                    OrderId = orderId,
+                    Total = basketCheckoutMessage.BasketTotal
+                };
 
+                try
+                {
+                    await _messageBus.PublishMessage(orderPaymentRequestMessage, orderPaymentRequestMessageTopic);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
             catch (Exception e)
             {

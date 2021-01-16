@@ -7,7 +7,7 @@ namespace ShoppingBasket.Entities
 {
     public enum BasketChangeTypeEnum
     {
-        Add, 
+        Add,
         Remove
     }
 }

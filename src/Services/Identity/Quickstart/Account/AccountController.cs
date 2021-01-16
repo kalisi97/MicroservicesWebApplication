@@ -163,6 +163,22 @@ namespace IdentityServerHost.Quickstart.UI
                             return this.LoadingPage("Redirect", model.ReturnUrl);
                         }
 
+                        AuthenticationProperties props = null;
+                        if (AccountOptions.AllowRememberLogin && model.RememberLogin)
+                        {
+                            props = new AuthenticationProperties
+                            {
+                                IsPersistent = true,
+                                ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
+                            };
+                        };
+                        var isuser = new IdentityServerUser(user.Id)
+                        {
+                            DisplayName = user.UserName
+                        };
+
+                     
+                       await HttpContext.SignInAsync(isuser, props);
                         // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
                         return Redirect(model.ReturnUrl);
                     }
@@ -228,7 +244,7 @@ namespace IdentityServerHost.Quickstart.UI
                 //  await HttpContext.SignOutAsync();
 
                 await _signInManager.SignOutAsync();
-
+                await HttpContext.SignOutAsync();
                 // raise the logout event
                 await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
             }
@@ -388,9 +404,9 @@ namespace IdentityServerHost.Quickstart.UI
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
+        public IActionResult Register(string returnurl)
         {
-            ViewData["ReturnUrl"] = returnUrl;
+            ViewData["ReturnUrl"] = returnurl;
             return View();
             //map user claims to Jwt Claims!
         }
@@ -399,9 +415,9 @@ namespace IdentityServerHost.Quickstart.UI
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Register(RegisterViewModel model, string returnurl)
         {
-            ViewData["ReturnUrl"] = returnUrl;
+            ViewData["ReturnUrl"] = returnurl;
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -409,7 +425,6 @@ namespace IdentityServerHost.Quickstart.UI
                     UserName = model.User.UserName,
                     Email = model.User.Email
                     
-                  
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Errors.Count() > 0)
@@ -436,18 +451,18 @@ namespace IdentityServerHost.Quickstart.UI
 
             }
 
-            if (returnUrl != null)
+            if (returnurl != null)
             {
                 if (HttpContext.User.Identity.IsAuthenticated)
-                    return Redirect(returnUrl);
+                    return Redirect(returnurl);
                 else
                     if (ModelState.IsValid)
-                    return RedirectToAction("Login", "Account", new { returnUrl = returnUrl });
+                    return RedirectToAction("Login", "Account", new { returnUrl = returnurl });
                 else
                     return View(model);
             }
-
-            return RedirectToAction("Login", "Account");
+          
+            return RedirectToAction("Login", "Account", new { returnUrl = returnurl });
         }
 
 
