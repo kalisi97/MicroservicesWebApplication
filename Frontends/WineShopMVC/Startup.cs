@@ -72,7 +72,7 @@ namespace WineShopMVC
            options.GetClaimsFromUserInfoEndpoint = true;
            options.Scope.Add("shoppingbasket.fullaccess");
            options.Scope.Add("wineshopgateway.fullaccess");
-           options.Scope.Add("winecatalog.fullaccess");
+          options.Scope.Add("winecatalog.fullaccess");
          
            //wineshopgateway.fullaccess
        });

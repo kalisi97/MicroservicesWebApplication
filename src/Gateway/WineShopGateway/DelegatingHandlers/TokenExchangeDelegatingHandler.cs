@@ -49,7 +49,7 @@ namespace GloboTicket.Gateway.DelegatingHandlers
             {
                 { "subject_token_type", "urn:ietf:params:oauth:token-type:access_token"},
                 { "subject_token", incomingToken},
-                { "scope", "openid profile eventcatalog.fullaccess" }
+                { "scope", "openid profile winecatalog.fullaccess" }
             };
 
             var tokenResponse = await client.RequestTokenAsync(new TokenRequest()

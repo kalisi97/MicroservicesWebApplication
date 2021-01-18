@@ -73,9 +73,9 @@ namespace ShoppingBasket.Controllers
             {
                 return NotFound();
             }
-            // pokreni i catalog servis
-           // var WineFromCatalog = await WineCatalogService.GetWine(basketLineForCreation.WineId);
-
+            // da li treba da sadrzi kopiju podataka u bazi ili da komunicira sa mikroservisom?
+            var wineFromCatalog = await WineCatalogService.GetWine(basketLineForCreation.WineId);
+           /*
             Entities.Wine wine = await WineRepository.WineExists(basketLineForCreation.WineId);
 
             if (wine == null)
@@ -83,13 +83,13 @@ namespace ShoppingBasket.Controllers
                // WineRepository.AddWine(WineFromCatalog);
                 await WineRepository.SaveChanges();
             }
-
+           */
             var basketLineEntity = mapper.Map<Entities.BasketLine>(basketLineForCreation);
 
             var processedBasketLine = await basketLinesRepository.AddOrUpdateBasketLine(basketId, basketLineEntity);
             await basketLinesRepository.SaveChanges();
 
-            var mappedWine = mapper.Map<Models.Wine>(wine);
+            var mappedWine = mapper.Map<Models.Wine>(wineFromCatalog);
             var basketLineToReturn = mapper.Map<BasketLine>(processedBasketLine);
             basketLineToReturn.Wine = mappedWine;
 
