@@ -116,6 +116,6 @@ Follow these steps to get your development environment set up:
 2. Run update-database for each microservice that uses SQL Server database
 3. Multiple startup projects. Right click the solution, open Properties, and set Multiple startup project and Start all except Integration library, click apply and ok.
 4. The browser will open, and you will be redirected to the Login page. If there is need, you can register a new user, or use existing:
-username: "alice" password: "Pass123"
+username: "alice" password: "Pass123!"
 
  ![Screenshot](/img/Screenshot_4.png)
